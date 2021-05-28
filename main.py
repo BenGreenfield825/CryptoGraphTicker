@@ -4,6 +4,7 @@ import pandas as pd
 import plotly.graph_objects as go
 import mplfinance as mpf
 from datetime import datetime
+from PIL import Image
 
 public_client = cbpro.PublicClient()
 # print(public_client.get_currencies())
@@ -20,14 +21,24 @@ df = pd.DataFrame(historic_rates, columns=['date', 'low', 'high', 'open', 'close
 df['date'] = pd.to_datetime(df['date'], unit='s')
 print(df)  # print all data
 # df.plot(x='date', y='high')
-ax = df.plot(x='date', y='high', legend=False)
-ax.set_facecolor('black')
-plt.axis('off')
-plt.show()
-ax.figure.savefig('test.png', transparent=True)
+ax = df.plot(x='date', y='high', legend=False)  # turn off legend
+# ax.set_facecolor('black')
+plt.axis('off')  # remove axes
+# plt.show()
+ax.figure.savefig('test.png', transparent=True)  # save graph with a transparent background
+im = Image.open(r"test.png")
+im = im.resize((240, 240))
+im.save("resized.png")
 # print(df['date'])
 # df.info()
 # mpf.plot(df, type='candle')
+# ----------------------------------------------------------------------------------------
+"""create a new image"""
+img = Image.new('RGB', (320, 240), 0)  # make a new black canvas of 320x240 (screen size)
+img2 = Image.new('RGB', (80, 240), 'blue')  # placeholder box for info
+img.paste(img2, (0, 0))
+img.paste(im, (80, 0))
+img.show()
 # ----------------------------------------------------------------------------------------
 # historic_rates = public_client.get_product_historic_rates('BTC-USD', granularity=900)
 # dates = []
