@@ -20,10 +20,11 @@ df = pd.DataFrame(historic_rates, columns=['date', 'low', 'high', 'open', 'close
 df['date'] = pd.to_datetime(df['date'], unit='s')
 print(df)  # print all data
 # df.plot(x='date', y='high')
-ax = df.plot(x='date', y='high')
+ax = df.plot(x='date', y='high', legend=False)
 ax.set_facecolor('black')
+plt.axis('off')
 plt.show()
-ax.figure.savefig('test.png')
+ax.figure.savefig('test.png', transparent=True)
 # print(df['date'])
 # df.info()
 # mpf.plot(df, type='candle')
