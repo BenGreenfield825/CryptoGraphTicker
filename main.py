@@ -1,6 +1,7 @@
 import cbpro
 import matplotlib.pyplot as plt
 import pandas as pd
+import display  # personal module
 import plotly.graph_objects as go
 import mplfinance as mpf
 from datetime import datetime
@@ -16,29 +17,34 @@ print("Bitcoin Price:", public_client.get_product_ticker(product_id='BTC-USD').g
 # print(public_client.get_product_historic_rates('BTC-USD', granularity=21600))
 # ----------------------------------------------------------------------------------------
 """Make a line graph of time vs. high in 15 minute granularity"""
-historic_rates = public_client.get_product_historic_rates('BTC-USD', granularity=900)
-df = pd.DataFrame(historic_rates, columns=['date', 'low', 'high', 'open', 'close', 'volume'])
-df['date'] = pd.to_datetime(df['date'], unit='s')
-print(df)  # print all data
+btc_historic_rates = public_client.get_product_historic_rates('BTC-USD', granularity=900)
+btc_df = pd.DataFrame(btc_historic_rates, columns=['date', 'low', 'high', 'open', 'close', 'volume'])
+btc_df['date'] = pd.to_datetime(btc_df['date'], unit='s')
+print(btc_df)  # print all data
+
+eth_historic_rates = public_client.get_product_historic_rates('ETH-USD', granularity=900)
+eth_df = pd.DataFrame(eth_historic_rates, columns=['date', 'low', 'high', 'open', 'close', 'volume'])
+eth_df['date'] = pd.to_datetime(eth_df['date'], unit='s')
+print(eth_df)  # print all data
+
 # df.plot(x='date', y='high')
-ax = df.plot(x='date', y='high', legend=False)  # turn off legend
-# ax.set_facecolor('black')
-plt.axis('off')  # remove axes
-# plt.show()
-ax.figure.savefig('test.png', transparent=True)  # save graph with a transparent background
-im = Image.open(r"test.png")
-im = im.resize((240, 240))
-im.save("resized.png")
+# ax = df.plot(x='date', y='high', legend=False)  # turn off legend
+# # ax.set_facecolor('black')
+# plt.axis('off')  # remove axes
+# # plt.show()
+# ax.figure.savefig('test.png', transparent=True)  # save graph with a transparent background
+# im = Image.open(r"test.png")
+# im = im.resize((240, 240))
+# im.save("resized.png")
 # print(df['date'])
 # df.info()
 # mpf.plot(df, type='candle')
 # ----------------------------------------------------------------------------------------
 """create a new image"""
-img = Image.new('RGB', (320, 240), 0)  # make a new black canvas of 320x240 (screen size)
-img2 = Image.new('RGB', (80, 240), 'blue')  # placeholder box for info
-img.paste(img2, (0, 0))
-img.paste(im, (80, 0))
-img.show()
+btc_price = public_client.get_product_ticker(product_id='BTC-USD').get("price")
+display.GenerateImage("BTC-USD", btc_price, btc_df)
+eth_price = public_client.get_product_ticker(product_id='ETH-USD').get("price")
+display.GenerateImage("ETH-USD", eth_price, eth_df)
 # ----------------------------------------------------------------------------------------
 # historic_rates = public_client.get_product_historic_rates('BTC-USD', granularity=900)
 # dates = []
