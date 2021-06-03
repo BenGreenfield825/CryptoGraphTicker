@@ -45,6 +45,8 @@ btc_price = public_client.get_product_ticker(product_id='BTC-USD').get("price")
 display.GenerateImage("BTC-USD", btc_price, btc_df)
 eth_price = public_client.get_product_ticker(product_id='ETH-USD').get("price")
 display.GenerateImage("ETH-USD", eth_price, eth_df)
+coins = [("BTC", btc_price), ("ETH", eth_price)]
+display.four_boxes_image(coins)
 # ----------------------------------------------------------------------------------------
 # historic_rates = public_client.get_product_historic_rates('BTC-USD', granularity=900)
 # dates = []
