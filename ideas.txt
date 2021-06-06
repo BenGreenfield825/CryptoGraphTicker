@@ -1,8 +1,0 @@
-Ideas list:
-    - skip using web socket for now, just call get_product_ticker every time we want to update data
-    - main can have an infinite loop with a delay - basically make it Arduino style
-        + button input to change update speed? would update sleep value
-    - split into different classes and files (real polymorphism hours)
-        + one class to handle fetching data, class to format, class to check for button inputs and send to other classes
-        + get extra fancy with options to use Binance (or others) instead?
-    - make json/settings file that allows easy changing of things like display colors and order of images on display
