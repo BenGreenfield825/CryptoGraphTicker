@@ -1,7 +1,5 @@
-cbpro~=1.1.4
-matplotlib~=3.4.2
-pandas~=1.2.4
-plotly~=4.14.3
-mplfinance~=0.12.7a17
-Pillow~=8.2.0
-board~=1.0
+cbpro
+matplotlib
+pandas
+Pillow
+board

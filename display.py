@@ -14,7 +14,7 @@ from matplotlib import pyplot as plt
 SCREEN_SIZE = (320, 240)  # change pixel size of screen here
 
 
-class GenerateImage:
+class GenerateImage:  # todo: restructuring needed
     def __init__(self, coin_name, coin_price, coin_df):
         self.coin_name = coin_name
         self.coin_price = coin_price

@@ -5,5 +5,4 @@ Ideas list:
     - split into different classes and files (real polymorphism hours)
         + one class to handle fetching data, class to format, class to check for button inputs and send to other classes
         + get extra fancy with options to use Binance (or others) instead?
-    - make chart have black background so that it can match the screen seamlessly - also remove labels
-        + http://jonathansoma.com/lede/data-studio/matplotlib/changing-the-background-of-a-pandas-matplotlib-graph/
+    - make json/settings file that allows easy changing of things like display colors and order of images on display
