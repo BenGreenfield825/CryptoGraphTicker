@@ -1,7 +1,7 @@
 import cbpro
 import matplotlib.pyplot as plt
 import pandas as pd
-import display  # personal module
+import graphics  # personal module
 from PIL import Image
 
 public_client = cbpro.PublicClient()
@@ -22,9 +22,9 @@ print(eth_df)  # print all data
 # ----------------------------------------------------------------------------------------
 """create a new image"""
 btc_price = public_client.get_product_ticker(product_id='BTC-USD').get("price")
-display.GenerateImage("BTC-USD", btc_price, btc_df)
+graphics.GenerateImage("BTC-USD", btc_price, btc_df)
 eth_price = public_client.get_product_ticker(product_id='ETH-USD').get("price")
-display.GenerateImage("ETH-USD", eth_price, eth_df)
+graphics.GenerateImage("ETH-USD", eth_price, eth_df)
 coins = [("BTC", btc_price), ("ETH", eth_price)]
-display.four_boxes_image(coins)
+graphics.four_boxes_image(coins)
 # ----------------------------------------------------------------------------------------
