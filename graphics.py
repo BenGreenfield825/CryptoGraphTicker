@@ -37,6 +37,7 @@ class GenerateImage:  # todo: restructuring needed
 
 
 def four_boxes_image(coins):  # pass in 4 prices and names to be displayed (list of tuples -> (coin_name, coin_price) )
+    # TODO: add p&l into list
     if len(coins) > 4:
         # raise Exception("Too many coin pairs")
         print("ERROR: Too many coin pairs! Only using the first four...")
@@ -48,7 +49,20 @@ def four_boxes_image(coins):  # pass in 4 prices and names to be displayed (list
     d.line((320, 240, 0, 240), fill="white", width=10)
     d.line((160, 0, 160, 240), fill="white", width=5)
     d.line((0, 120, 320, 120), fill="white", width=5)
-    fnt = ImageFont.truetype("fonts/Roboto/Roboto-Regular.ttf", 20)
-    test = coins[0][0] + "\n" + coins[0][1]
-    d.multiline_text((10, 10), test, font=fnt, fill=("DodgerBlue"))
-    img.show()
+    fnt = ImageFont.truetype("fonts/Roboto/Roboto-Bold.ttf", 30)
+    # test = coins[0][0] + "\n" + coins[0][1]
+    square_one_coin = coins[0][0]
+    square_one_price = "$" + coins[0][1]
+    if coins[0][2] >= 0:
+        square_one_pl = "+" + str(coins[0][2]) + "%"
+        pl_color = "green"
+    else:
+        square_one_pl = str(coins[0][2]) + "%"
+        pl_color = "red"
+    # d.multiline_text((10, 10), test, font=fnt, fill="white")
+    d.text((48.33, 10), square_one_coin, font=fnt, fill="white")
+    d.text((10, 50), square_one_price, font=fnt, fill="white")
+    pl_fnt = ImageFont.truetype("fonts/Roboto/Roboto-Bold.ttf", 25)
+    d.text((40, 85), square_one_pl, font=pl_fnt, fill=pl_color)
+    # img.show()
+    img.save("4coins.png")

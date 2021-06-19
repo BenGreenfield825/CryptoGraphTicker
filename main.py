@@ -24,8 +24,7 @@ btc_price = public_client.get_product_ticker(product_id='BTC-USD').get("price")
 graphics.GenerateImage("BTC-USD", btc_price, btc_df)
 eth_price = public_client.get_product_ticker(product_id='ETH-USD').get("price")
 graphics.GenerateImage("ETH-USD", eth_price, eth_df)
-coins = [("BTC", btc_price), ("ETH", eth_price)]
-# graphics.four_boxes_image(coins)
+
 # ----------------------------------------------------------------------------------------
 """Calculate P&L using previous day's close"""
 eth_24hr = public_client.get_product_24hr_stats('ETH-USD')
@@ -51,3 +50,6 @@ btc_last = float(btc_last)
 btc_pl = ((btc_last - btc_current_high) / btc_last) * 100
 btc_pl = round(btc_pl, 2)
 print("BTC P&L:", btc_pl)
+
+coins = [("BTC", btc_price, btc_pl), ("ETH", eth_price, eth_pl)]
+graphics.four_boxes_image(coins)
