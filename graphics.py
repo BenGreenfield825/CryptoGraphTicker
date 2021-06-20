@@ -4,6 +4,7 @@ from matplotlib import pyplot as plt
 """ This module will handle creating graphics and controlling the display """
 
 SCREEN_SIZE = (320, 240)  # change pixel size of screen here
+square_w = 152.5  # might change later
 
 
 class GenerateImage:  # todo: restructuring needed
@@ -37,10 +38,9 @@ class GenerateImage:  # todo: restructuring needed
 
 
 def four_boxes_image(coins):  # pass in 4 prices and names to be displayed (list of tuples -> (coin_name, coin_price) )
-    # TODO: add p&l into list
     if len(coins) > 4:
-        # raise Exception("Too many coin pairs")
         print("ERROR: Too many coin pairs! Only using the first four...")
+
     img = Image.new('RGB', SCREEN_SIZE, 0)
     d = ImageDraw.Draw(img)
     d.line((0, 0, 0, 240), fill="white", width=10)
@@ -50,19 +50,57 @@ def four_boxes_image(coins):  # pass in 4 prices and names to be displayed (list
     d.line((160, 0, 160, 240), fill="white", width=5)
     d.line((0, 120, 320, 120), fill="white", width=5)
     fnt = ImageFont.truetype("fonts/Roboto/Roboto-Bold.ttf", 30)
-    # test = coins[0][0] + "\n" + coins[0][1]
-    square_one_coin = coins[0][0]
-    square_one_price = "$" + coins[0][1]
-    if coins[0][2] >= 0:
-        square_one_pl = "+" + str(coins[0][2]) + "%"
-        pl_color = "green"
-    else:
-        square_one_pl = str(coins[0][2]) + "%"
-        pl_color = "red"
-    # d.multiline_text((10, 10), test, font=fnt, fill="white")
-    d.text((48.33, 10), square_one_coin, font=fnt, fill="white")
-    d.text((10, 50), square_one_price, font=fnt, fill="white")
-    pl_fnt = ImageFont.truetype("fonts/Roboto/Roboto-Bold.ttf", 25)
-    d.text((40, 85), square_one_pl, font=pl_fnt, fill=pl_color)
-    # img.show()
+    pl_fnt = ImageFont.truetype("fonts/Roboto/Roboto-Bold.ttf", 25)  # smaller font for p&l
+
+    for coin in coins:
+        coin_name = coin[0]
+        price = "$" + coin[1]
+        if "." not in price:
+            price = price + ".00"
+        if coin[2] >= 0:
+            pl = "+" + str(coin[2]) + "%"
+            pl_color = "green"
+        else:
+            pl = str(coin[2]) + "%"
+            pl_color = "red"
+
+        # --- Draw the four coins --- #
+        x_offset = 160
+        y_offset = 120
+        if coin == coins[0]:
+            d.text((48, 10), coin_name, font=fnt, fill="white")  # coin name
+            d.text((set_price_x(price), 45), price, font=fnt, fill="white")  # price
+            d.text((40, 80), pl, font=pl_fnt, fill=pl_color)  # p&l
+        if coin == coins[1]:
+            d.text((48 + x_offset, 10), coin_name, font=fnt, fill="white")  # coin name
+            d.text((set_price_x(price) + x_offset, 45), price, font=fnt, fill="white")  # price
+            d.text((40 + x_offset, 80), pl, font=pl_fnt, fill=pl_color)  # p&l
+        if coin == coins[2]:
+            d.text((48, 10 + y_offset), coin_name, font=fnt, fill="white")  # coin name
+            d.text((set_price_x(price), 45 + y_offset), price, font=fnt, fill="white")  # price
+            d.text((40, 80 + y_offset), pl, font=pl_fnt, fill=pl_color)  # p&l
+        if coin == coins[3]:
+            d.text((48 + x_offset, 10 + y_offset), coin_name, font=fnt, fill="white")  # coin name
+            d.text((set_price_x(price) + x_offset, 45 + y_offset), price, font=fnt, fill="white")  # price
+            d.text((40 + x_offset, 80 + y_offset), pl, font=pl_fnt, fill=pl_color)  # p&l
+
     img.save("4coins.png")
+
+
+def set_price_x(price):
+    length = len(price)
+    if length == 9:
+        x = 10
+    elif length == 8:
+        x = 16
+    elif length == 7:
+        x = 22
+    elif length == 6:
+        x = 28
+    elif length == 5:
+        x = 34
+    elif length == 5:
+        x = 48
+    else:
+        x = 10
+    return x
