@@ -6,8 +6,12 @@ from matplotlib import pyplot as plt
 SCREEN_SIZE = (320, 240)  # change pixel size of screen here
 square_w = 152.5  # might change later
 
+# TODO: Need a restructure overhaul for adaptability
+# TODO: Graph screen needs design work - looks lame. Maybe info on a top banner and graph underneath
+# TODO: Add automatic x offset for price in graph screen - make one from 4 coins into a function
 
-class GenerateImage:  # todo: restructuring needed
+
+class GenerateImage:
     def __init__(self, coin_name, coin_price, coin_df):
         self.coin_name = coin_name
         self.coin_price = coin_price
@@ -28,12 +32,19 @@ class GenerateImage:  # todo: restructuring needed
         return graph
 
     def make_graph_text_image(self):
+        name_fnt = ImageFont.truetype("fonts/Roboto/Roboto-Bold.ttf", 20)
+        price_fnt = ImageFont.truetype("fonts/Roboto/Roboto-Bold.ttf", 22)
+        pl_fnt = ImageFont.truetype("fonts/Roboto/Roboto-Bold.ttf", 25)  # smaller font for p&l
+
         img = Image.new('RGB', SCREEN_SIZE, 0)  # make a new black canvas of 320x240 (screen size)
-        # img.show()
-        img2 = Image.new('RGB', (80, 240), 'blue')  # placeholder box for info
+        img.paste(self.formatted_graph, (95, 0))
+        img2 = Image.new('RGB', (110, 240), 'SteelBlue')  # placeholder box for info
         img.paste(img2, (0, 0))
-        img.paste(self.formatted_graph, (80, 0))
-        # img.show()
+
+        d = ImageDraw.Draw(img)
+        d.text((15, 10), self.coin_name, font=name_fnt, fill="white")
+        d.text((0, 40), "$" + self.coin_price, font=price_fnt, fill="white")
+
         img.save(self.coin_name + "_graph+text" + ".png")
 
 
@@ -87,7 +98,7 @@ def four_boxes_image(coins):  # pass in 4 prices and names to be displayed (list
     img.save("4coins.png")
 
 
-def set_price_x(price):
+def set_price_x(price):  # TODO: add this feature for p&l also
     length = len(price)
     if length == 9:
         x = 10

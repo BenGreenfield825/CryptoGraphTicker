@@ -45,6 +45,8 @@ ren_price = public_client.get_product_ticker(product_id='REN-USD').get("price")
 
 # TODO: Mess with getting local time for more accurate p&l, get_product_24hr_stats doesn't take a start or end point
 #       for time. Would need to use an additional historic_rates pull with time points, but that's extra overhead
+#       that a pi zero really doesn't need. Update: having "incorrect" p&l is really annoying
+
 # now = datetime.now()
 # current_time = now.strftime("%H:%M:%S")
 # print("Current Time =", now)
