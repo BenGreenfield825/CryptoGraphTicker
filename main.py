@@ -112,11 +112,11 @@ def calculate_pl():  # TODO: make function singular?, i.e. pass in one coin to c
 
 
 while True:
-    create_dataframes()
+    # create_dataframes()
     get_current_prices()
     calculate_pl()
     # TODO: use calculate_pl to get a return of one coin, add that coin to a list so that we can pass it to 4 coins screen
-    display.write_to_screen("4coins.png")
+    display.write_to_screen()
     time.sleep(300)  # TODO: needs to not be sleep, unless interrupts/threads for reading buttons can work in tandem
 #                            with this so that it will still update every 5 minutes while also allowing
 #                            the screen to be updated or other things

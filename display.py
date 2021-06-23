@@ -39,5 +39,6 @@ else:
 # disp.image(image)
 
 
-def write_to_screen(image):
+def write_to_screen():  # TODO: just for testing atm
+    image = Image.open("4coins.png")
     disp.image(image)
