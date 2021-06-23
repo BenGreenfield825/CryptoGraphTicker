@@ -18,7 +18,7 @@ def create_dataframes():  # TODO: update to be more flexible, perhaps pass in a 
     """Make a line graph of time vs. high in 15 minute granularity"""
     global btc_df, eth_df, ltc_df, ren_df
 
-    btc_historic_rates = public_client.get_product_historic_rates('BTC-USD', granularity=900)
+    btc_historic_rates = public_client.get_product_historic_rates('BTC-USD', granularity=86400)
     btc_df = pd.DataFrame(btc_historic_rates, columns=['date', 'low', 'high', 'open', 'close', 'volume'])
     btc_df['date'] = pd.to_datetime(btc_df['date'], unit='s')
     print(btc_df)  # print all data
@@ -44,15 +44,15 @@ def create_dataframes():  # TODO: update to be more flexible, perhaps pass in a 
 
 
 def generate_graph():  # TODO: remove getting prices here, also make function singular? pass in only one coin
-    btc_price = public_client.get_product_ticker(product_id='BTC-USD').get("price")
-    eth_price = public_client.get_product_ticker(product_id='ETH-USD').get("price")
-    ltc_price = public_client.get_product_ticker(product_id='LTC-USD').get("price")
-    ren_price = public_client.get_product_ticker(product_id='REN-USD').get("price")
+    b_price = public_client.get_product_ticker(product_id='BTC-USD').get("price")
+    e_price = public_client.get_product_ticker(product_id='ETH-USD').get("price")
+    l_price = public_client.get_product_ticker(product_id='LTC-USD').get("price")
+    r_price = public_client.get_product_ticker(product_id='REN-USD').get("price")
 
-    graphics.GenerateImage("BTC-USD", btc_price, btc_df)
-    graphics.GenerateImage("ETH-USD", eth_price, eth_df)
-    graphics.GenerateImage("LTC-USD", ltc_price, ltc_df)
-    graphics.GenerateImage("REN-USD", ren_price, ren_df)
+    graphics.GenerateImage("BTC-USD", b_price, btc_df)
+    graphics.GenerateImage("ETH-USD", e_price, eth_df)
+    graphics.GenerateImage("LTC-USD", l_price, ltc_df)
+    graphics.GenerateImage("REN-USD", r_price, ren_df)
 
 
 def get_current_prices():  # TODO: make singular, basically don't do any of these things (i.e. globals, mult coins)
@@ -71,6 +71,8 @@ def get_current_prices():  # TODO: make singular, basically don't do any of thes
 #       for time. Would need to use an additional historic_rates pull with time points, but that's extra overhead
 #       that a pi zero really doesn't need. Update: having "incorrect" p&l is really annoying
 
+# after some research, crypto 24hr% change is based on 24hrs ago compared to current time, so doing this below
+# would probably make it the most accurate, given we match everything correctly to the data frames
 # now = datetime.now()
 # current_time = now.strftime("%H:%M:%S")
 # print("Current Time =", now)
@@ -78,32 +80,34 @@ def get_current_prices():  # TODO: make singular, basically don't do any of thes
 # print("24hrs ago: =", yesterday)
 
 
+# TODO: technically i think this should really just be price change and not p&l
 def calculate_pl():  # TODO: make function singular?, i.e. pass in one coin to calculate and get a return
     btc_24hr = public_client.get_product_24hr_stats('BTC-USD')
+    print(btc_24hr)
     btc_last = btc_24hr.get('last')
     btc_last = float(btc_last)
-    btc_pl = ((btc_last - float(btc_price)) / btc_last) * 100
+    btc_pl = ((float(btc_price) - btc_last) / btc_last) * 100
     btc_pl = round(btc_pl, 2)
     print("BTC P&L:", btc_pl)
 
     eth_24hr = public_client.get_product_24hr_stats('ETH-USD')
     eth_last = eth_24hr.get('last')
     eth_last = float(eth_last)
-    eth_pl = ((eth_last - float(eth_price)) / eth_last) * 100
+    eth_pl = ((float(eth_price) - eth_last) / eth_last) * 100
     eth_pl = round(eth_pl, 2)
     print("ETH P&L:", eth_pl)
 
     ltc_24hr = public_client.get_product_24hr_stats('LTC-USD')
     ltc_last = ltc_24hr.get('last')
     ltc_last = float(ltc_last)
-    ltc_pl = ((ltc_last - float(ltc_price)) / ltc_last) * 100
+    ltc_pl = ((float(ltc_price) - ltc_last) / ltc_last) * 100
     ltc_pl = round(ltc_pl, 2)
     print("LTC P&L:", ltc_pl)
 
     ren_24hr = public_client.get_product_24hr_stats('REN-USD')
     ren_last = ren_24hr.get('last')
     ren_last = float(ren_last)
-    ren_pl = ((ren_last - float(ren_price)) / ren_last) * 100
+    ren_pl = ((float(ren_price) - ren_last) / ren_last) * 100
     ren_pl = round(ren_pl, 2)
     print("REN P&L:", ren_pl)
 
