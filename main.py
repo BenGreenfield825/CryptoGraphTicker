@@ -4,7 +4,7 @@ import cbpro
 import matplotlib.pyplot as plt
 import pandas as pd
 import graphics  # personal module
-import display
+# import display
 from datetime import datetime, timedelta
 
 public_client = cbpro.PublicClient()
@@ -78,12 +78,13 @@ def get_current_prices():  # TODO: make singular, basically don't do any of thes
 # print("Current Time =", now)
 # yesterday = now - timedelta(hours=24)
 # print("24hrs ago: =", yesterday)
+# otherwise we could look at 00:00:00 time (start of day) and compare to current price
+# In the end, the way I have it might be fine as it seems that different sites use different methods anyways
 
 
 # TODO: technically i think this should really just be price change and not p&l
 def calculate_pl():  # TODO: make function singular?, i.e. pass in one coin to calculate and get a return
     btc_24hr = public_client.get_product_24hr_stats('BTC-USD')
-    print(btc_24hr)
     btc_last = btc_24hr.get('last')
     btc_last = float(btc_last)
     btc_pl = ((float(btc_price) - btc_last) / btc_last) * 100
@@ -120,7 +121,7 @@ while True:
     get_current_prices()
     calculate_pl()
     # TODO: use calculate_pl to get a return of one coin, add that coin to a list so that we can pass it to 4 coins screen
-    display.write_to_screen()
+    # display.write_to_screen()
     time.sleep(300)  # TODO: needs to not be sleep, unless interrupts/threads for reading buttons can work in tandem
 #                            with this so that it will still update every 5 minutes while also allowing
 #                            the screen to be updated or other things
