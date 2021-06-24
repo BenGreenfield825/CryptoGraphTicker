@@ -1,3 +1,4 @@
+import re
 from PIL import Image, ImageDraw, ImageFont
 from matplotlib import pyplot as plt
 
@@ -11,7 +12,7 @@ square_w = 152.5  # might change later
 # TODO: Add automatic x offset for price in graph screen - make one from 4 coins into a function
 
 
-class GenerateImage:
+class GenerateGraph:
     def __init__(self, coin_name, coin_price, coin_df):
         self.coin_name = coin_name
         self.coin_price = coin_price
@@ -43,12 +44,13 @@ class GenerateImage:
 
         d = ImageDraw.Draw(img)
         d.text((15, 10), self.coin_name, font=name_fnt, fill="white")
-        d.text((0, 40), "$" + self.coin_price, font=price_fnt, fill="white")
+        d.text((0, 40), "$" + str(self.coin_price), font=price_fnt, fill="white")
 
         img.save(self.coin_name + "_graph+text" + ".png")
 
 
-def four_boxes_image(coins):  # pass in 4 prices and names to be displayed (list of tuples -> (coin_name, coin_price) )
+def four_boxes_image(coins):
+    """pass in 4 prices and names to be displayed (list of tuples -> (coin_name, coin_price, percent_change) )"""
     if len(coins) > 4:
         print("ERROR: Too many coin pairs! Only using the first four...")
 
@@ -63,8 +65,16 @@ def four_boxes_image(coins):  # pass in 4 prices and names to be displayed (list
     fnt = ImageFont.truetype("fonts/Roboto/Roboto-Bold.ttf", 30)
     pl_fnt = ImageFont.truetype("fonts/Roboto/Roboto-Bold.ttf", 25)  # smaller font for p&l
 
+    remove_str = '-USD'
+
     for coin in coins:
-        coin_name = coin[0]
+        if coin[0] == 0:
+            print("null coin")
+            break
+        if coin[0].endswith(remove_str):
+            coin_name = re.sub(remove_str, '', coin[0])
+        else:
+            coin_name = coin[0]
         price = "$" + coin[1]
         if "." not in price:
             price = price + ".00"
@@ -78,22 +88,25 @@ def four_boxes_image(coins):  # pass in 4 prices and names to be displayed (list
         # --- Draw the four coins --- #
         x_offset = 160
         y_offset = 120
-        if coin == coins[0]:
-            d.text((48, 10), coin_name, font=fnt, fill="white")  # coin name
-            d.text((set_price_x(price), 45), price, font=fnt, fill="white")  # price
-            d.text((40, 80), pl, font=pl_fnt, fill=pl_color)  # p&l
-        if coin == coins[1]:
-            d.text((48 + x_offset, 10), coin_name, font=fnt, fill="white")  # coin name
-            d.text((set_price_x(price) + x_offset, 45), price, font=fnt, fill="white")  # price
-            d.text((40 + x_offset, 80), pl, font=pl_fnt, fill=pl_color)  # p&l
-        if coin == coins[2]:
-            d.text((48, 10 + y_offset), coin_name, font=fnt, fill="white")  # coin name
-            d.text((set_price_x(price), 45 + y_offset), price, font=fnt, fill="white")  # price
-            d.text((40, 80 + y_offset), pl, font=pl_fnt, fill=pl_color)  # p&l
-        if coin == coins[3]:
-            d.text((48 + x_offset, 10 + y_offset), coin_name, font=fnt, fill="white")  # coin name
-            d.text((set_price_x(price) + x_offset, 45 + y_offset), price, font=fnt, fill="white")  # price
-            d.text((40 + x_offset, 80 + y_offset), pl, font=pl_fnt, fill=pl_color)  # p&l
+        try:    # TODO: exception catch might be expensive for pi zero, look at alternative method in the future
+            if coin == coins[0]:
+                d.text((48, 10), coin_name, font=fnt, fill="white")  # coin name
+                d.text((set_price_x(price), 45), price, font=fnt, fill="white")  # price
+                d.text((40, 80), pl, font=pl_fnt, fill=pl_color)  # p&l
+            if coin == coins[1]:
+                d.text((48 + x_offset, 10), coin_name, font=fnt, fill="white")  # coin name
+                d.text((set_price_x(price) + x_offset, 45), price, font=fnt, fill="white")  # price
+                d.text((40 + x_offset, 80), pl, font=pl_fnt, fill=pl_color)  # p&l
+            if coin == coins[2]:
+                d.text((48, 10 + y_offset), coin_name, font=fnt, fill="white")  # coin name
+                d.text((set_price_x(price), 45 + y_offset), price, font=fnt, fill="white")  # price
+                d.text((40, 80 + y_offset), pl, font=pl_fnt, fill=pl_color)  # p&l
+            if coin == coins[3]:
+                d.text((48 + x_offset, 10 + y_offset), coin_name, font=fnt, fill="white")  # coin name
+                d.text((set_price_x(price) + x_offset, 45 + y_offset), price, font=fnt, fill="white")  # price
+                d.text((40 + x_offset, 80 + y_offset), pl, font=pl_fnt, fill=pl_color)  # p&l
+        except IndexError:
+            print("ERROR: Not enough coins")
 
     img.save("4coins.png")
 
