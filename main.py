@@ -22,6 +22,8 @@ def create_dataframe(coin_name, gran_time):
     df['date'] = pd.to_datetime(df['date'], unit='s')
     print(df)  # print all data
     return df
+
+
 # ----------------------------------------------------------------------------------------
 
 
@@ -46,6 +48,8 @@ def get_current_price(coin_name):
     return current_price
 
 # ----------------------------------------------------------------------------------------
+
+
 """Calculate P&L using previous day's close"""
 
 # TODO: move to calculations/data file
@@ -75,15 +79,8 @@ def calculate_percent_change(coin_name, current_price):
     return percent_change
 
 
-# while True:
-#     create_dataframes()
-#     get_current_price()
-#     calculate_pl()
-#     # TODO: use calculate_pl to get a return of one coin, add that coin to a list so that we can pass it to 4 coins screen
-#     # display.write_to_screen()
-#     time.sleep(300)  # TODO: needs to not be sleep, unless interrupts/threads for reading buttons can work in tandem
-# #                            with this so that it will still update every 5 minutes while also allowing
-# #                            the screen to be updated or other things
+# ----------------------------------------------------------------------------------------
+
 
 coins_to_use = ['BTC-USD', 'ETH-USD', 'LTC-USD', 'REN-USD']
 while True:
@@ -96,4 +93,6 @@ while True:
 
     graphics.four_boxes_image(coins)
     display.write_to_screen()
-    time.sleep(300)
+    time.sleep(300)  # TODO: needs to not be sleep, unless interrupts/threads for reading buttons can work in tandem
+#                            with this so that it will still update every 5 minutes while also allowing
+#                            the screen to be updated or other things

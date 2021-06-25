@@ -41,3 +41,4 @@ update interval, so speed and precise data isn't required.
 
 ## Possible Todo's
 - Include live price updating functionality as a screen option using websockets
+- Web UI to easily control settings from your phone or another computer
