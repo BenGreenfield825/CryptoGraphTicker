@@ -1,10 +1,16 @@
 # CryptoGraphTicker
-## *WIP*
 ## Intro
 This repo is the software for a raspberry-pi based cryptocurrency price and graph ticker. This code allows a user to
 choose between different formats of data, i.e. switching between price charts, viewing different coin prices, viewing
 information from a user's crypto account, etc.  
 <br>*put pictures here eventually*
+
+## Current Version v0.1.0:
+- Includes basic functionality
+- Currently only has 1 display option - 4coin screen
+- Can be run with
+>python3 main.py
+- Lots more to come
 
 ## Hardware Used
 - Raspberry Pi Zero W
