@@ -30,15 +30,8 @@ if disp.rotation % 180 == 90:
 else:
     width = disp.width  # we swap height/width to rotate it to landscape!
     height = disp.height
-# image = Image.new('RGB', (width, height))
-#
-# # Get drawing object to draw on image.
-# draw = ImageDraw.Draw(image)
-#
-# image = Image.open("BTC-USD_graph+text.png")
-# disp.image(image)
 
 
-def write_to_screen():  # TODO: just for testing atm
+def write_to_screen():  # TODO: eventually will take in a parameter (probably image name)
     image = Image.open("4coins.png")
     disp.image(image)
