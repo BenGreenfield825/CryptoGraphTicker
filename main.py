@@ -19,3 +19,5 @@ while True:
 # TODO: needs to not be sleep, unless interrupts/threads for reading buttons can work in tandem
 #       with this so that it will still update every 5 minutes while also allowing
 #       the screen to be updated or other things
+
+# TODO: have the main while loop have the button control and then put threads/interrupts inside for data updates?
