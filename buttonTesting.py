@@ -1,5 +1,6 @@
 import digitalio
 import board
+import display
 from PIL import Image, ImageDraw
 import adafruit_rgb_display.ili9341 as ili9341
 from gpiozero import Button
@@ -50,8 +51,10 @@ while True:
         disp.image(image)
     if button3.is_pressed:
         print("button 3 pressed")
+        display.write_to_screen()
     if button4.is_pressed:
         print("button 4 pressed")
+        display.display_test()
     sleep(.5)
 
 

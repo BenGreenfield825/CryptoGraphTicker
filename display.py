@@ -28,3 +28,8 @@ else:
 def write_to_screen():  # TODO: eventually will take in a parameter (probably image name)
     image = Image.open("4coins.png")
     disp.image(image)
+
+
+def display_test():
+    image = Image.open("BTC-USD_graph+text.png")
+    disp.image(image)
