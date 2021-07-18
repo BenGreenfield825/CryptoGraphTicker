@@ -12,39 +12,43 @@ square_w = 152.5  # might change later
 # TODO: Add automatic x offset for price in graph screen - make one from 4 coins into a function
 
 
-class GenerateGraph:
-    def __init__(self, coin_name, coin_price, coin_df):
+class PriceGraph:
+    def __init__(self, coin_name, coin_price, coin_df, coin_change):
         self.coin_name = coin_name
         self.coin_price = coin_price
         self.coin_df = coin_df
+        self.coin_change = coin_change
         self.formatted_graph = self.format_graph()
-
         self.make_graph_text_image()
 
     def format_graph(self):
-        ax = self.coin_df.plot(x='date', y='high', legend=False)  # turn off legend
-        # ax.set_facecolor('black')
-        plt.axis('off')  # remove axes
+        ax = self.coin_df.plot(x='date', y='high', color="white", legend=False)
+        plt.axis('off')
         # plt.show()
         ax.figure.savefig('temp_graph.png', transparent=True)  # save graph with a transparent background
         graph = Image.open(r"temp_graph.png")
-        graph = graph.resize((240, 240))
+        graph = graph.resize((320, 240))
         graph.save("resized.png")
         return graph
 
     def make_graph_text_image(self):
-        name_fnt = ImageFont.truetype("fonts/Roboto/Roboto-Bold.ttf", 20)
-        price_fnt = ImageFont.truetype("fonts/Roboto/Roboto-Bold.ttf", 22)
-        pl_fnt = ImageFont.truetype("fonts/Roboto/Roboto-Bold.ttf", 25)  # smaller font for p&l
+        fnt = ImageFont.truetype("fonts/Roboto/Roboto-Bold.ttf", 22)
 
         img = Image.new('RGB', SCREEN_SIZE, 0)  # make a new black canvas of 320x240 (screen size)
-        img.paste(self.formatted_graph, (95, 0))
-        img2 = Image.new('RGB', (110, 240), 'SteelBlue')  # placeholder box for info
+        img.paste(self.formatted_graph, (0, 25))
+        img2 = Image.new('RGB', (320, 50), 'SteelBlue')  # placeholder box for info
         img.paste(img2, (0, 0))
 
         d = ImageDraw.Draw(img)
-        d.text((15, 10), self.coin_name, font=name_fnt, fill="white")
-        d.text((0, 40), "$" + str(self.coin_price), font=price_fnt, fill="white")
+        d.text((15, 12), self.coin_name, font=fnt, fill="white")
+        d.text((115, 12), "$" + str(self.coin_price), font=fnt, fill="white")
+        if self.coin_change >= 0:
+            self.coin_change = "+" + str(self.coin_change) + "%"
+            change_color = "green"
+        else:
+            self.coin_change = str(self.coin_change) + "%"
+            change_color = "red"
+        d.text((235, 12), str(self.coin_change), font=fnt, fill=change_color)
 
         img.save(self.coin_name + "_graph+text" + ".png")
 
