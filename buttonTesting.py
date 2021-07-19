@@ -33,28 +33,28 @@ else:
     height = disp.height
 
 
-
-
 image = Image.new("RGB", (320, 240))
 draw = ImageDraw.Draw(image)
 
 # Pressing different buttons will successfully draw on the screen without clearing it first    
 
-while True:
-    if button1.is_pressed:
-        print("button 1 pressed")
-        draw.rectangle((0, 0, 20, 20), fill="blue")
-        disp.image(image)
-    if button2.is_pressed:
-        print("button 2 pressed")
-        draw.rectangle((20, 20, 40, 40), fill="red")
-        disp.image(image)
-    if button3.is_pressed:
-        print("button 3 pressed")
-        display.write_to_screen()
-    if button4.is_pressed:
-        print("button 4 pressed")
-        display.display_test()
-    sleep(.5)
+
+def button_control():
+    while True:
+        if button1.is_pressed:
+            print("button 1 pressed")
+            draw.rectangle((0, 0, 20, 20), fill="blue")
+            disp.image(image)
+        if button2.is_pressed:
+            print("button 2 pressed")
+            draw.rectangle((20, 20, 40, 40), fill="red")
+            disp.image(image)
+        if button3.is_pressed:
+            print("button 3 pressed")
+            display.write_to_screen()
+        if button4.is_pressed:
+            print("button 4 pressed")
+            display.display_test()
+        sleep(.5)
 
 
