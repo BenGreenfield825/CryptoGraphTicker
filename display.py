@@ -25,11 +25,6 @@ else:
     height = disp.height
 
 
-def write_to_screen():  # TODO: eventually will take in a parameter (probably image name)
-    image = Image.open("4coins.png")
-    disp.image(image)
-
-
-def display_test():
-    image = Image.open("BTC-USD_graph+text.png")
+def write_to_screen(image_name):
+    image = Image.open(image_name)
     disp.image(image)

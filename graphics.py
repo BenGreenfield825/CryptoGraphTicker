@@ -1,9 +1,11 @@
 import re
+import linkedList
 from PIL import Image, ImageDraw, ImageFont
 from matplotlib import pyplot as plt
 
 """ This module will handle creating graphics and controlling the display """
 
+cdll = linkedList.CDLinkedList()
 SCREEN_SIZE = (320, 240)  # change pixel size of screen here
 square_w = 152.5  # might change later
 
@@ -50,7 +52,8 @@ class PriceGraph:
             change_color = "red"
         d.text((235, 12), str(self.coin_change), font=fnt, fill=change_color)
 
-        img.save(self.coin_name + "_graph+text" + ".png")
+        img.save(self.coin_name + "_graph" + ".png")
+        cdll.append(self.coin_name + "_graph" + ".png")
 
 
 def four_boxes_image(coins):
@@ -113,6 +116,7 @@ def four_boxes_image(coins):
             print("ERROR: Not enough coins")
 
     img.save("4coins.png")
+    cdll.append("4coins.png")
 
 
 def set_price_x(price):  # TODO: add this feature for p&l also
