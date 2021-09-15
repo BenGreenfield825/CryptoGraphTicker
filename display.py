@@ -33,5 +33,10 @@ else:
 
 
 def write_to_screen():  # TODO: eventually will take in a parameter (probably image name)
+    # Draw black rectangle to clear screen
+    image = Image.new("RGB", (width, height))
+    draw = ImageDraw.Draw(image)
+    draw.rectangle((0, 0, width, height), outline=0, fill=(0, 0, 0))
+
     image = Image.open("4coins.png")
     disp.image(image)
