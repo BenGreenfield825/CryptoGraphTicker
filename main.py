@@ -1,7 +1,7 @@
 import time
 import cbpro
 import pandas as pd
-import graphics  # personal module
+import graphics
 import display
 # from datetime import datetime, timedelta
 
@@ -47,6 +47,7 @@ def calculate_24hr_percent_change(coin_name, current_price):
 
 # ----------------------------------------------------------------------------------------
 
+display.loading_screen()
 coins_to_use = ['BTC-USD', 'ETH-USD', 'LTC-USD', 'REN-USD']
 while True:
     coins = []

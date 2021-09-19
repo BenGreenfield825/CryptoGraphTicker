@@ -7,6 +7,7 @@ from matplotlib import pyplot as plt
 SCREEN_SIZE = (320, 240)  # change pixel size of screen here
 square_w = 152.5  # might change later
 
+
 # TODO: Need a restructure overhaul for adaptability
 # TODO: Graph screen needs design work - looks lame. Maybe info on a top banner and graph underneath
 # TODO: Add automatic x offset for price in graph screen - make one from 4 coins into a function
@@ -49,6 +50,17 @@ class GenerateGraph:
         img.save(self.coin_name + "_graph+text" + ".png")
 
 
+# def logo_test():
+#     fnt = ImageFont.truetype("fonts/Roboto/Roboto-Bold.ttf", 20)
+#     img = Image.new('RGB', SCREEN_SIZE, 0)  # make a new black canvas of 320x240 (screen size)
+#     logo = Image.open("logo.PNG")
+#     logo = logo.resize((100, 100))
+#     img.paste(logo, (110, 60))
+#     d = ImageDraw.Draw(img)
+#     d.text((110, 170), "Loading . . .", font=fnt)
+#     img.save("loading_screen.png")
+
+
 def four_boxes_image(coins):
     """pass in 4 prices and names to be displayed (list of tuples -> (coin_name, coin_price, percent_change) )"""
     if len(coins) > 4:
@@ -88,7 +100,7 @@ def four_boxes_image(coins):
         # --- Draw the four coins --- #
         x_offset = 160
         y_offset = 120
-        try:    # TODO: exception catch might be expensive for pi zero, look at alternative method in the future
+        try:  # TODO: exception catch might be expensive for pi zero, look at alternative method in the future
             if coin == coins[0]:
                 d.text((48, 10), coin_name, font=fnt, fill="white")  # coin name
                 d.text((set_price_x(price), 45), price, font=fnt, fill="white")  # price

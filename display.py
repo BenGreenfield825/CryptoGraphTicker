@@ -40,3 +40,9 @@ def write_to_screen():  # TODO: eventually will take in a parameter (probably im
 
     image = Image.open("4coins.png")
     disp.image(image)
+
+
+def loading_screen():
+    image = Image.open("loading_screen.png")
+    disp.image(image)
+
